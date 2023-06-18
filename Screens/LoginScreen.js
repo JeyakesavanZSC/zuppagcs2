@@ -1,211 +1,128 @@
-import React, {useState} from 'react';
-import { useNavigation } from '@react-navigation/core';
-import { KeyboardAvoidingView, TouchableOpacity } from 'react-native';
-import { auth } from '../firebase';
-import { ImageBackground, StyleSheet, Text, View ,SafeAreaView, TextInput, Button} from 'react-native';
-import Images from '../images/Images';
+import { useNavigation } from '@react-navigation/core'
+import React, { useEffect, useState } from 'react'
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { auth } from '../firebase'
 
-const Login = () =>
-{
+const LoginScreen = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-    const [userName, setUserName] = useState('');
-    const [pass,setPass]=useState(''); 
-    
+  const navigation = useNavigation()
 
-    useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged(user => {
-        if (user) {
-          navigation.replace("Home")
-        }
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        navigation.replace("Home")
+      }
+    })
+
+    return unsubscribe
+  }, [])
+
+  const handleSignUp = () => {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(userCredentials => {
+        const user = userCredentials.user;
+        console.log('Registered with:', user.email);
       })
-  
-      return unsubscribe
-    }, [])
+      .catch(error => alert(error.message))
+  }
 
-
-    const handleSignUp = () => {
-      auth
-        .createUserWithEmailAndPassword(email, password)
-        .then(userCredentials => {
-          const user = userCredentials.user;
-          console.log('Registered with:', user.email);
-        })
-        .catch(error => alert(error.message))
-    }
-   
-
-
-
-    const navigation = useNavigation()
-
-    useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged(user => {
-        if (user) {
-           navigation.navigate('Map')
-        }
+  const handleLogin = () => {
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(userCredentials => {
+        const user = userCredentials.user;
+        console.log('Logged in with:', user.email);
       })
-  
-      return unsubscribe
-    }, [])
-  
-    const handleSignUp = () => {
-      auth
-        .createUserWithEmailAndPassword(userName, pass)
-        .then(userCredentials => {
-          const user = userCredentials.user;
-          console.log('Registered with:', user.userName);
-        })
-        .catch(error => alert(error.message))
-    }
-  
-    const handleLogin = () => {
-      auth
-        .signInWithEmailAndPassword(userName, pass)
-        .then(userCredentials => {
-          const user = userCredentials.user;
-          console.log('Logged in with:', user.userName);
-        })
-        .catch(error => alert(error.message))
-    }
-  
+      .catch(error => alert(error.message))
+  }
 
+  return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior="padding"
+    >
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Email"
+          value={email}
+          onChangeText={text => setEmail(text)}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="Password"
+          value={password}
+          onChangeText={text => setPassword(text)}
+          style={styles.input}
+          secureTextEntry
+        />
+      </View>
 
-
-
-
-
-    
-
-return(
-  <SafeAreaView style={{ flex: 1 }}>
-    <View style={styles.container}>
-            <ImageBackground source={Images.drone} style={styles.image}>
-                <Text style={styles.title}>ZUPPA GCS</Text>
-               
-                <Text style={styles.username}>UserName</Text>
-                <TextInput
-                value={userName}
-                onChangeText={(userName) => setUserName(userName)}
-                placeholder={'UserName'}
-                style={styles.userinput} />
-
-               <Text style={{ color: 'blue' }}>{userName}</Text>
-
-               
-               
-                <Text style={styles.pass} >pass</Text>
-                <TextInput
-                value={pass}
-                onChangeText={(pass) => setPass(pass)}
-                placeholder={'pass'}
-                style={styles.passinput} />
-
-               <Text style={{ color: 'blue' }}>{pass}</Text>
-
-
-               <Button style={styles.button} 
-                           onPress={handleLogin}
-                           title="LOGIN" color='green' />
-                           
-               <Button style={styles.button} 
-                onPress={() => navigation.navigate('RegisterScreen')}
-                           
-                           title="REGISTER" color='blue' />
-               
-            </ImageBackground>
-        </View>
-        </SafeAreaView>
-);
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={handleLogin}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleSignUp}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonOutlineText}>Register</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
+  )
 }
+
+export default LoginScreen
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent:'center',
-    flexDirection: 'column',
-  },
-  login:
-  {
-    borderWidth:1,
-    width: 300,
-    height: 500,
-    
-    marginHorizontal: 'auto',
-   
-   
-
-  },
-  image: {
-    flex: 1,
-    resizeMode: 'cover',
     justifyContent: 'center',
+    alignItems: 'center',
   },
-  text: {
-    color: 'white',
-    fontSize: 42,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: '#000000a0',
+  inputContainer: {
+    width: '80%'
   },
-  userinput: {
-    
-    borderWidth:1,
-    width: 250,
-    height: 44,
-    padding: 10,
-    marginHorizontal: 'auto',
-   
-    backgroundColor: '#e8e8e8'
+  input: {
+    backgroundColor: 'white',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 5,
   },
-  passinput: {
-    
-    borderWidth:1,
-    width: 250,
-    height: 44,
-    padding: 10,
-    marginHorizontal: 'auto',
-   
-    backgroundColor: '#e8e8e8'
-  },
- 
-  
-  image: {
-    flex: 1,
-    resizeMode: 'cover',
+  buttonContainer: {
+    width: '60%',
     justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
   },
-  
-  title: {
-    paddingTop:0, 
+  button: {
+    backgroundColor: '#0782F9',
+    width: '100%',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  buttonOutline: {
+    backgroundColor: 'white',
+    marginTop: 5,
+    borderColor: '#0782F9',
+    borderWidth: 2,
+  },
+  buttonText: {
     color: 'white',
-    fontSize: 42,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: '#000000a0',
-    marginTop: 10,
-    marginBottom:200,
-    
+    fontWeight: '700',
+    fontSize: 16,
   },
-  username: {
-    textAlignVertical:'top', paddingTop:0, paddingBottom:0,
-    color: 'white',
-    fontSize:25,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: '#000000a0',
+  buttonOutlineText: {
+    color: '#0782F9',
+    fontWeight: '700',
+    fontSize: 16,
   },
-  pass: {
-    textAlignVertical:'top', paddingTop:0, paddingBottom:0,
-    color: 'white',
-    fontSize:25,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: '#000000a0',
-  },
-  
-  
-});
-
-export default Login;
-
-
+})

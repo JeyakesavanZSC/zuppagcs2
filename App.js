@@ -10,6 +10,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from "./Screens/LoginScreen";
 import Register from "./Screens/RegisterScreen";
 import Map from "./Screens/Map";
+
 const Stack = createStackNavigator();
 
 
@@ -32,31 +33,6 @@ import { Platform } from "react-native";
 
 
 export default function App() {
-
-/*
-
-  const [initialization,setInitialization] =useState(true);
-
-  function onAuthStateChanged(user){
-  setUserName(user);
-  if(initializing)
-  setInitialization(false);
-  }
-
-  useEffect(()=>{
-    const subscriber=firebase.auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  },[])
-
-  if(initializing)
-  setInitialization(false);
-
-  if(!user)
-  {
-
-  }
-
-*/
 
 
 
@@ -84,6 +60,7 @@ export default function App() {
           component={Map}
          
         />
+       
        
       </Stack.Navigator>
 
