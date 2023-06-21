@@ -21,8 +21,8 @@ import { useAuthentication } from "../utils/hooks/useAuthentication";
 
 const auth = getAuth();
 const Login = () => {
-  const [userName, setUserName] = useState("");
-  const [pass, setPass] = useState("");
+  const [userName, setUserName] = useState("jeyakesavanzuppa@gmail.com");
+  const [pass, setPass] = useState("123456");
   const { user } = useAuthentication();
 
   const navigation = useNavigation();
@@ -41,7 +41,7 @@ const Login = () => {
     signInWithEmailAndPassword(getAuth(), userName, pass)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        console.log("Logged in with:", user.userName);
+        console.log("Logged in with:", user);
       })
       .catch((error) => alert(error.message));
   };
