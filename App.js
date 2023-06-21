@@ -2,9 +2,15 @@ import "react-native-gesture-handler";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { AppRegistry } from "react-native";
+<<<<<<< HEAD
 
 //import { firebase } from './config';
 
+=======
+import {} from "./firebase";
+
+
+>>>>>>> 5f0cf4db75c236cc82c46643c61d4d33ea404af5
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -14,6 +20,7 @@ import Map from "./Screens/Map";
 const Stack = createStackNavigator();
 
 import { Text, View, NativeBaseProvider } from "native-base";
+<<<<<<< HEAD
 
 
 export default function App() {
@@ -41,6 +48,12 @@ export default function App() {
   }
 
 */
+=======
+import { useAuthentication } from "./utils/hooks/useAuthentication";
+
+export default function App() {
+ 
+>>>>>>> 5f0cf4db75c236cc82c46643c61d4d33ea404af5
   const { user } = useAuthentication();
   useEffect(() => {
     console.log("auth_user", user);
@@ -63,6 +76,7 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
+<<<<<<< HEAD
 }
 
 // Color Switch Component
@@ -82,3 +96,6 @@ export default function App() {
 //     </HStack>
 //   );
 // }
+=======
+}
+>>>>>>> 5f0cf4db75c236cc82c46643c61d4d33ea404af5

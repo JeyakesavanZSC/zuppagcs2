@@ -11,6 +11,7 @@ import {
   Button,
 } from "react-native";
 import Images from "../images/Images";
+<<<<<<< HEAD
 
 
 const Login = () => {
@@ -57,6 +58,78 @@ const Login = () => {
 
           <Button
             style={styles.button}
+=======
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  User,
+  getAuth,
+} from "firebase/auth";
+import { useAuthentication } from "../utils/hooks/useAuthentication";
+
+const auth = getAuth();
+const Login = () => {
+  const [userName, setUserName] = useState("jeyakesavanzuppa@gmail.com");
+  const [pass, setPass] = useState("123456");
+  const { user } = useAuthentication();
+
+  const navigation = useNavigation();
+
+  const handleSignUp = () => {
+    auth
+      .createUserWithEmailAndPassword(userName, pass)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Registered with:", user.userName);
+      })
+      .catch((error) => alert(error.message));
+  };
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(getAuth(), userName, pass)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Logged in with:", user);
+      })
+      .catch((error) => alert(error.message));
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <ImageBackground source={Images.drone} style={styles.image}>
+          <Text style={styles.title}>ZUPPA GCS</Text>
+
+          <Text style={styles.username}>UserName</Text>
+          <TextInput
+            value={userName}
+            onChangeText={(userName) => setUserName(userName)}
+            placeholder={"UserName"}
+            style={styles.userinput}
+          />
+
+          <Text style={{ color: "blue" }}>{userName}</Text>
+
+          <Text style={styles.pass}>pass</Text>
+          <TextInput
+            value={pass}
+            onChangeText={(pass) => setPass(pass)}
+            placeholder={"pass"}
+            style={styles.passinput}
+          />
+
+          <Text style={{ color: "blue" }}>{pass}</Text>
+
+          <Button
+            style={styles.button}
+            onPress={handleLogin}
+            title="LOGIN"
+            color="green"
+          />
+
+          <Button
+            style={styles.button}
+>>>>>>> 5f0cf4db75c236cc82c46643c61d4d33ea404af5
             onPress={() => navigation.navigate("RegisterScreen")}
             title="REGISTER"
             color="blue"
@@ -150,4 +223,8 @@ const styles = StyleSheet.create({
   },
 });
 
+<<<<<<< HEAD
 export default Login;
+=======
+export default Login;
+>>>>>>> 5f0cf4db75c236cc82c46643c61d4d33ea404af5
