@@ -17,12 +17,17 @@ const Map = () => {
     <View style={styles.container}>
       <MapView
         style={{ alignSelf: 'stretch', height: '100%' }}
-
-
-        region={mapRegion}
-      >
-        <Marker coordinate={mapRegion} title='Marker' pincolor="gold"/>
+           region={mapRegion}>
+        
       </MapView>
+
+      <Marker
+      coordinate={{latitude:12.96250 , longitude:80.26270}}
+      image={require('../images/uav.png')}
+      title='ZUPPA DRONE'
+      />
+
+      
     </View>
   );
 };
