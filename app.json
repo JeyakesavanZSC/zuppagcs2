@@ -1,0 +1,14 @@
+{
+    "expo": {
+      "plugins": [
+        [
+          "expo-location",
+          {
+           
+            "isAndroidBackgroundLocationEnabled":"false"
+          }
+        ]
+      ]
+    }
+  }
+  
